@@ -1,6 +1,7 @@
 import random
 from typing import Iterable
 from GameStatus import GameStatus
+from Setting import Config
 
 
 class InvalidOperationError(Exception):
@@ -10,8 +11,6 @@ class InvalidOperationError(Exception):
 class Game:
 
     def __init__(self, tries: int = 6):
-        if tries < 5 or tries > 8:
-            raise ValueError('Please, choose between 5 and 8')
         self.__tries = tries
         self.__miss_counter = 0
         self.__try_letters = []
@@ -19,12 +18,13 @@ class Game:
         self.__game_status = GameStatus.NOT_STARTED
         self.__word = ""
 
-
     def generate_words(self) -> str:
-        with open(f'C:\\Users\\Win10_Game_OS\\Downloads\\nw.txt', encoding='utf8') as file:
+        dir = Config()
+        tx = dir.get_setting("settings.ini", "Settings", "directory")
+        with open(tx, encoding='utf8') as file:
             lines = file.readlines()
             random_word = random.choice(lines)
-            self.__word = random_word.rstrip()
+            self.__word = random_word.rstrip().lower()
             self.__opened_letters = [False for _ in self.__word]
             self.__game_status = GameStatus.GAME_CONTINUE
             return self.__word
@@ -49,7 +49,7 @@ class Game:
             if self.__opened_letters[i]:
                 result.append(c)
             else:
-                result.append('_')
+                result.append(' _ ')
 
         if not open_any_letter:
             self.__miss_counter += 1
@@ -61,7 +61,6 @@ class Game:
         elif self.miss_counter == self.tries:
             self.__game_status = GameStatus.LOOSE
 
-
         return result
 
     def __winner(self):
@@ -72,14 +71,6 @@ class Game:
 
     def word_by_str(self, try_letter):
         return ''.join(try_letter)
-
-    def points(self):
-        points = 0
-        if self.__game_status == GameStatus.WON:
-            points += 100
-        elif self.miss_counter == self.tries:
-            points = 0
-        return points
 
     @property
     def game_status(self) -> GameStatus:
