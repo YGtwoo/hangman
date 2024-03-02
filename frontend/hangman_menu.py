@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from frontend.hangman_playground import Playground
 from frontend.hangman_table import TablePoints
-from Setting import Config
+from setting import Config
 
 
 class Menu(object):

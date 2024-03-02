@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QWidget, QInputDialog
 
-from Setting import Config
+from setting import Config
 from backend.Game import Game
 from backend.GameStatus import GameStatus
 

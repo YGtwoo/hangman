@@ -1,7 +1,7 @@
 import random
 from typing import Iterable
 from backend.GameStatus import GameStatus
-from Setting import Config
+from setting import Config
 
 
 class InvalidOperationError(Exception):
